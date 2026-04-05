@@ -12,12 +12,12 @@ export default function Conversations({ onlineUsers, typing }) {
       <ul>
         {conversations &&
           conversations
-            .filter(
-              (c) =>
-                c.latestMessage ||
-                c._id === activeConversation._id ||
-                c.isGroup == true
-            )
+            // .filter(
+            //   (c) =>
+            //     c.latestMessage ||
+            //     c._id === activeConversation._id ||
+            //     c.isGroup == true
+            // )
             .map((convo) => {
               let check = checkOnlineStatus(onlineUsers, user, convo.users);
               return (

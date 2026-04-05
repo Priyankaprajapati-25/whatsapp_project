@@ -17,10 +17,37 @@ export default function Call({
   totalSecInCall,
   setTotalSecInCall,
 }) {
-  const { receiveingCall, callEnded, name } = call;
+  const { receiveingCall, callEnded, name, picture, type } = call;
 
   const [showActions, setShowActions] = useState(false);
   const [toggle, setToggle] = useState(false);
+
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [isSpeakerOff, setIsSpeakerOff] = useState(false);
+
+  const toggleMic = () => {
+    if (stream && stream.getAudioTracks().length > 0) {
+      const audioTrack = stream.getAudioTracks()[0];
+      audioTrack.enabled = !audioTrack.enabled;
+      setIsMuted(!audioTrack.enabled);
+    }
+  };
+
+  const toggleVideo = () => {
+    if (stream && stream.getVideoTracks().length > 0) {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.enabled = !videoTrack.enabled;
+      setIsVideoOff(!videoTrack.enabled);
+    }
+  };
+
+  const toggleSpeaker = () => {
+    if (userVideo.current) {
+      userVideo.current.muted = !userVideo.current.muted;
+      setIsSpeakerOff(userVideo.current.muted);
+    }
+  };
 
   return (
     <>
@@ -31,7 +58,7 @@ export default function Call({
         onMouseOver={() => setShowActions(true)}
         onMouseOut={() => setShowActions(false)}
       >
-        <div>
+        <div className="w-full h-full">
           <Header />
 
           <CallArea
@@ -41,11 +68,31 @@ export default function Call({
             callAccepted={callAccepted}
           />
 
-          {showActions ? <CallAcions endCall={endCall} /> : null}
+          {showActions ? (
+            <CallAcions
+              endCall={endCall}
+              toggleMic={toggleMic}
+              toggleVideo={toggleVideo}
+              toggleSpeaker={toggleSpeaker}
+              isMuted={isMuted}
+              isVideoOff={isVideoOff}
+              isSpeakerOff={isSpeakerOff}
+            />
+          ) : null}
 
-          {/* VIDEO STREAMS */}
-          <div>
-            {/* REMOTE USER VIDEO (UNMUTED ✅) */}
+          {/* CONDITIONAL RENDER FOR AUDIO/VIDEO UI */}
+          {type === "audio" ? (
+            <div className="w-full h-full flex flex-col items-center justify-center pt-10">
+              <img 
+                src={picture || "/default-pic.png"} 
+                alt="Profile" 
+                className="w-36 h-36 rounded-full object-cover border-4 border-white shadow-xl"
+              />
+            </div>
+          ) : null}
+
+          {/* VIDEO STREAMS (Hidden if audio call, but kept in DOM to play sound!) */}
+          <div className={type === "audio" ? "hidden" : "block"}>
             {callAccepted && !callEnded && (
               <div>
                 <video
@@ -58,7 +105,6 @@ export default function Call({
               </div>
             )}
 
-            {/* MY VIDEO (MUTED ✅) */}
             {stream && (
               <div>
                 <video
@@ -77,7 +123,6 @@ export default function Call({
         </div>
       </div>
 
-      {/* RINGING SCREEN */}
       {receiveingCall && !callAccepted && (
         <Ringing
           call={call}
@@ -87,7 +132,6 @@ export default function Call({
         />
       )}
 
-      {/* CALLING SOUND */}
       {!callAccepted && show && (
         <audio src="/audio/ringing.mp3" autoPlay loop />
       )}

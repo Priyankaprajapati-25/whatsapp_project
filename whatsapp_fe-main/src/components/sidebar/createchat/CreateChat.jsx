@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { open_create_conversation } from "../../../features/chatSlice";
+import { open_create_conversation, addConversation  } from "../../../features/chatSlice";
 import SocketContext from "../../../context/SocketContext";
 
 function CreateChat({ setShowCreateChat, socket }) {
@@ -49,6 +49,8 @@ function CreateChat({ setShowCreateChat, socket }) {
         setError("Failed to create conversation.");
         return;
       }
+
+      dispatch(addConversation(newConvo.payload));
 
       //Join socket room
       socket.emit("join conversation", newConvo.payload._id);

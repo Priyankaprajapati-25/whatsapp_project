@@ -9,6 +9,7 @@ import CreateChat from "./createchat/CreateChat.jsx";
 export default function Sidebar({ onlineUsers, typing }) {
   const [searchResults, setSearchResults] = useState([]);
   const [showCreateChat, setShowCreateChat] = useState(false);
+
   return (
     <div className="flex0030 max-w-[30%] h-full select-none">
       {/*Sidebar Header*/}

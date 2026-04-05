@@ -44,24 +44,28 @@ export default function (socket, io) {
 
   //call
   //---call user
-socket.on("call user", (data) => {
-  let userId = data.userToCall;
+//call
+  //---call user
+  socket.on("call user", (data) => {
+    let userId = data.userToCall;
 
-  let userSocket = onlineUsers.find(
-    (user) => user.userId == userId
-  );
-  // ✅ FIX: check if user exists
-  if (!userSocket) {
-    console.log("User not online:", userId);
-    return;
-  }
-  io.to(userSocket.socketId).emit("call user", {
-    signal: data.signal,
-    from: data.from,
-    name: data.name,
-    picture: data.picture,
+    let userSocket = onlineUsers.find(
+      (user) => user.userId == userId
+    );
+    // ✅ FIX: check if user exists
+    if (!userSocket) {
+      console.log("User not online:", userId);
+      return;
+    }
+    
+    io.to(userSocket.socketId).emit("call user", {
+      signal: data.signal,
+      from: data.from,
+      name: data.name,
+      picture: data.picture,
+      type: data.type, // ✅ WE ADDED THIS LINE to pass the audio/video flag to the receiver
+    });
   });
-});
   //---answer call
   socket.on("answer call", (data) => {
     io.to(data.to).emit("call accepted", data.signal);

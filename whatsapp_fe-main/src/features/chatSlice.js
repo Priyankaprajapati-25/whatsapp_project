@@ -180,8 +180,14 @@
         })
         .addCase(open_create_conversation.fulfilled, (state, action) => {
           state.status = "succeeded";
+          //added
           state.activeConversation = action.payload;
           state.files = [];
+
+          const exists = state.conversations.find(
+          (c) => c._id === action.payload._id
+        );
+
         })
         .addCase(open_create_conversation.rejected, (state, action) => {
           state.status = "failed";
@@ -234,11 +240,11 @@
           state.activeConversation = action.payload;
           state.files = [];
 
-          // // add new group to top
-          // state.conversations = [action.payload, ...state.conversations];
+          // add new group to top
+          state.conversations = [action.payload, ...state.conversations];
 
-          // // optional: open the group immediately
-          // state.activeConversation = action.payload;
+          // optional: open the group immediately
+          state.activeConversation = action.payload;
         })
         .addCase(createGroupConversation.rejected, (state, action) => {
           state.status = "failed";

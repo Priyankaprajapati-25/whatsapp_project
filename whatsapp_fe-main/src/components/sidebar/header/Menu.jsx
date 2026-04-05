@@ -14,16 +14,6 @@ export default function Menu({ setShowCreateGroup }) {
           >
             <span>New group</span>
           </li>
-          <li className="py-3 pl-5 cursor-pointer hover:bg-dark_bg_3"
-            >
-            <span>New chat</span>
-          </li>
-          <li className="py-3 pl-5 cursor-pointer hover:bg-dark_bg_3">
-            <span>Starred messaged</span>
-          </li>
-          <li className="py-3 pl-5 cursor-pointer hover:bg-dark_bg_3">
-            <span>Settings</span>
-          </li>
           <li
             className="py-3 pl-5 cursor-pointer hover:bg-dark_bg_3"
             onClick={() => dispatch(logout())}
