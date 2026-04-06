@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Peer from "simple-peer";
 import ChatContainer from "../components/Chat/ChatContainer.jsx";
 import WhatsappHome from "../components/Chat/Welcome/WhatsappHome.jsx";
-import { Sidebar } from "../components/sidebar";
-import SocketContext from "../context/SocketContext";
+import { Sidebar } from "../components/sidebar/index.js";
+import SocketContext from "../context/SocketContext.js";
 import {
   getConversations,
   updateMessagesAndConversations,
-} from "../features/chatSlice";
-import Call from "../components/Chat/call/Call";
-import { getConversationId } from "../utils/chat";
+} from "../features/chatSlice.js";
+import Call from "../components/Chat/call/Call.jsx";
+import { getConversationId } from "../utils/chat.js";
 
 const initialCallState = {
   receiveingCall: false,
@@ -276,7 +276,7 @@ function Home({ socket }) {
         
         {/* SIDEBAR WRAPPER: flex-none stops it from squishing */}
         <div 
-          className={`h-full w-full md:w-[36%] md:min-w-[390px] md:max-w-[420px] flex-none ${
+          className={`h-full w-full md:w-[40%] md:min-w-[420px] md:max-w-[420px] flex-none ${
             activeConversation._id ? "hidden md:flex" : "flex"
           }`}
         >

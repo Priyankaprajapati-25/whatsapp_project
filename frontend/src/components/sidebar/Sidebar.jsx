@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Conversations } from "./conversations";
-import { SidebarHeader } from "./header";
-import { Notifications } from "./notifications";
-import { Search } from "./search";
-import { SearchResults } from "./search";
+import { Conversations } from "./conversations/index.js";
+import { SidebarHeader } from "./header/index.js";
+import { Notifications } from "./notifications/index.js";
+import { Search } from "./search/index.js";
+import { SearchResults } from "./search/index.js";
 import CreateChat from "./createchat/CreateChat.jsx";
 
 export default function Sidebar({ onlineUsers, typing }) {
