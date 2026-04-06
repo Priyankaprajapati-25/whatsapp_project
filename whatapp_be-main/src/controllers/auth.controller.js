@@ -15,7 +15,7 @@ export const register = async (req, res, next) => {
     });
     const access_token = await generateToken(
       { userId: newUser._id },
-      "1d",
+      "30d",
       process.env.ACCESS_TOKEN_SECRET
     );
     const refresh_token = await generateToken(
@@ -51,7 +51,7 @@ export const login = async (req, res, next) => {
     const user = await signUser(email, password);
     const access_token = await generateToken(
       { userId: user._id },
-      "1d",
+      "30d",
       process.env.ACCESS_TOKEN_SECRET
     );
     const refresh_token = await generateToken(
@@ -102,7 +102,7 @@ export const refreshToken = async (req, res, next) => {
     const user = await findUser(check.userId);
     const access_token = await generateToken(
       { userId: user._id },
-      "1d",
+      "30d",
       process.env.ACCESS_TOKEN_SECRET
     );
     res.json({

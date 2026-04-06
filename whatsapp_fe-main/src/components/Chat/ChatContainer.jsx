@@ -12,39 +12,42 @@ export default function ChatContainer({ onlineUsers, typing, callUser }) {
   const { activeConversation, files } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
   const { token } = user;
+  
   const values = {
     token,
     convo_id: activeConversation?._id,
   };
+
   useEffect(() => {
     if (activeConversation?._id) {
       dispatch(getConversationMessages(values));
     }
   }, [activeConversation]);
+
   return (
-    <div className="relative w-full h-full border-l dark:border-l-dark_border_2 select-none overflow-hidden ">
-      {/*Container*/}
-      <div>
-        {/*Chat header*/}
-        <ChatHeader
-          online={
-            activeConversation.isGroup
-              ? false
-              : checkOnlineStatus(onlineUsers, user, activeConversation.users)
-          }
-          callUser={callUser}
-        />
-        {files.length > 0 ? (
-          <FilesPreview />
-        ) : (
-          <>
-            {/*Chat messages*/}
-            <ChatMessages typing={typing} />
-            {/* Chat Actions */}
-            <ChatActions />
-          </>
-        )}
-      </div>
+    // Fixed: Ensure the entire container is a column flexbox
+    <div className="relative w-full h-full md:border-l border-transparent md:dark:border-l-dark_border_2 select-none overflow-hidden flex flex-col">
+      {/*Chat header*/}
+      <ChatHeader
+        online={
+          activeConversation.isGroup
+            ? false
+            : checkOnlineStatus(onlineUsers, user, activeConversation.users)
+        }
+        callUser={callUser}
+      />
+      
+      {/* Dynamic Content */}
+      {files.length > 0 ? (
+        <FilesPreview />
+      ) : (
+        <>
+          {/*Chat messages: Should have flex-1 inside its component to stretch*/}
+          <ChatMessages typing={typing} />
+          {/* Chat Actions at the bottom */}
+          <ChatActions />
+        </>
+      )}
     </div>
   );
 }

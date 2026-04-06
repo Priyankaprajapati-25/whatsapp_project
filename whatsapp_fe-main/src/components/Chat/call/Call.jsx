@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CallAcions from "./CallAcions";
 import CallArea from "./CallArea";
 import Header from "./Header";
@@ -25,6 +25,15 @@ export default function Call({
   const [isMuted, setIsMuted] = useState(false);
   const [isVideoOff, setIsVideoOff] = useState(false);
   const [isSpeakerOff, setIsSpeakerOff] = useState(false);
+
+  // ✅ ADDED: Reset mute states whenever the call ends/hides
+  useEffect(() => {
+    if (!show && !receiveingCall) {
+      setIsMuted(false);
+      setIsVideoOff(false);
+      setIsSpeakerOff(false);
+    }
+  }, [show, receiveingCall]);
 
   const toggleMic = () => {
     if (stream && stream.getAudioTracks().length > 0) {

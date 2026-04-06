@@ -11,7 +11,7 @@ export default function Sidebar({ onlineUsers, typing }) {
   const [showCreateChat, setShowCreateChat] = useState(false);
 
   return (
-    <div className="flex0030 max-w-[30%] h-full select-none">
+    <div className="w-full h-full select-none flex flex-col">
       {/*Sidebar Header*/}
       <SidebarHeader setShowCreateChat={setShowCreateChat} />
       {/*Notifications */}

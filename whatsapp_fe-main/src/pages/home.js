@@ -19,7 +19,7 @@ const initialCallState = {
   picture: "",
   signal: "",
   remoteSocketId: "", 
-  type: "video", // ✅ Track if it's audio or video
+  type: "video",
 };
 
 function Home({ socket }) {
@@ -35,11 +35,9 @@ function Home({ socket }) {
   const [totalSecInCall, setTotalSecInCall] = useState(0);
   const [typing, setTyping] = useState(false);
 
-  // ─── DOM REFS ─────────────────────────────────────────────────────────────
   const myVideo = useRef();
   const userVideo = useRef();
   
-  // ─── WEBRTC / STATE REFS ──────────────────────────────────────────────────
   const connectionRef = useRef(null);
   const streamRef = useRef(null);
   const isCallActiveRef = useRef(false);
@@ -49,22 +47,17 @@ function Home({ socket }) {
     callRef.current = call;
   }, [call]);
 
-  // ─── MASTER CLEANUP ───────────────────────────────────────────────────────
   const cleanupCall = useCallback(() => {
     isCallActiveRef.current = false;
-    
     callRef.current = initialCallState; 
-
     if (connectionRef.current) {
       try { connectionRef.current.destroy(); } catch (_) {}
       connectionRef.current = null;
     }
-
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
-
     if (myVideo.current) myVideo.current.srcObject = null;
     if (userVideo.current) userVideo.current.srcObject = null;
 
@@ -75,7 +68,6 @@ function Home({ socket }) {
     setCall(initialCallState);
   }, []);
 
-  // ─── SOCKET: SETUP ────────────────────────────────────────────────────────
   useEffect(() => {
     socket.emit("join", user._id);
     socket.on("get-online-users", (users) => setOnlineUsers(users));
@@ -88,7 +80,7 @@ function Home({ socket }) {
         name: data.name,
         picture: data.picture,
         signal: data.signal,
-        type: data.type || "video", // ✅ Save incoming call type
+        type: data.type || "video",
         callEnded: false,
       });
       setShow(true);
@@ -114,15 +106,13 @@ function Home({ socket }) {
     return () => socket.off("call accepted", handleCallAccepted);
   }, [socket]);
 
-  // ─── MEDIA SETUP ──────────────────────────────────────────────────────────
   const setupMedia = async (callType) => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((t) => t.stop());
     }
-
     try {
       const newStream = await navigator.mediaDevices.getUserMedia({
-        video: callType === "video", // ✅ Only ask for camera if video call
+        video: callType === "video", 
         audio: true,
       });
       streamRef.current = newStream;
@@ -165,7 +155,6 @@ function Home({ socket }) {
     ],
   });
 
-  // ─── CALL ACTIONS ─────────────────────────────────────────────────────────
   const callUser = async (callType = "video") => {
     if (isCallActiveRef.current) return;
     isCallActiveRef.current = true;
@@ -176,7 +165,6 @@ function Home({ socket }) {
       return;
     }
 
-    // ✅ Populate receiver details so Caller sees UI immediately
     const remoteUser = activeConversation.users.find(u => u._id !== user._id);
     setCall((prev) => ({
       ...prev,
@@ -202,7 +190,7 @@ function Home({ socket }) {
         from: socket.id, 
         name: user.name,
         picture: user.picture,
-        type: callType, // ✅ Send call type to receiver
+        type: callType,
       });
     });
 
@@ -217,7 +205,6 @@ function Home({ socket }) {
     if (isCallActiveRef.current) return;
     isCallActiveRef.current = true;
 
-    // ✅ Use type from incoming call state
     const currentStream = await setupMedia(callRef.current.type); 
     if (!currentStream) {
       isCallActiveRef.current = false;
@@ -251,7 +238,6 @@ function Home({ socket }) {
 
   const endCall = () => {
     isCallActiveRef.current = false;
-    
     let target = callRef.current.remoteSocketId;
 
     if (!target) {
@@ -265,11 +251,9 @@ function Home({ socket }) {
     if (target) {
       socket.emit("end call", target);
     }
-    
     cleanupCall();
   };
 
-  // ─── UTILITIES ────────────────────────────────────────────────────────────
   useEffect(() => {
     if (user?.token) dispatch(getConversations(user.token));
   }, [user, dispatch]);
@@ -287,17 +271,34 @@ function Home({ socket }) {
 
   return (
     <>
-      <div className="h-screen dark:bg-dark_bg_1 flex items-center justify-center overflow-hidden">
-        <div className="container h-screen flex py-[19px]">
+      {/* Changed: Removed the inner container and padding so it naturally spans 100vw and 100vh */}
+      <div className="h-screen w-full dark:bg-dark_bg_1 flex overflow-hidden">
+        
+        {/* SIDEBAR WRAPPER: flex-none stops it from squishing */}
+        <div 
+          className={`h-full w-full md:w-[36%] md:min-w-[390px] md:max-w-[420px] flex-none ${
+            activeConversation._id ? "hidden md:flex" : "flex"
+          }`}
+        >
           <Sidebar onlineUsers={onlineUsers} typing={typing} />
+        </div>
+
+        {/* CHAT/HOME WRAPPER: flex-1 ensures it fills the remaining space perfectly */}
+        <div 
+          className={`h-full w-full flex-1 ${
+            !activeConversation._id ? "hidden md:flex" : "flex"
+          }`}
+        >
           {activeConversation._id ? (
             <ChatContainer onlineUsers={onlineUsers} callUser={callUser} typing={typing} />
           ) : (
             <WhatsappHome />
           )}
         </div>
+
       </div>
 
+      {/* Call UI */}
       <div className={(show || call.receiveingCall) && !call.callEnded ? "block" : "hidden"}>
         <Call
           call={call}
