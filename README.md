@@ -1,3 +1,7 @@
+💬 WhatsApp Web Clone (MERN + WebRTC)
+
+A full-stack real-time chat application inspired by WhatsApp Web, featuring messaging, group chats, file sharing, and peer-to-peer audio/video calling.
+
 🚀 Features
 💬 Messaging
 One-to-one real-time chat
@@ -50,8 +54,8 @@ server/
   └── socket/
 ⚙️ Installation & Setup
 1️⃣ Clone the repository
-git clone https://github.com/your-username/whatsapp-clone.git
-cd whatsapp-clone
+git clone https://github.com/your-username/whatsapp_project.git
+cd whatsapp_project
 2️⃣ Setup Backend
 cd server
 npm install
