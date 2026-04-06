@@ -47,7 +47,10 @@ app.use(
 );
 
 //cors
-app.use(cors());
+cors({
+  origin: ["http://localhost:3000"],
+  credentials: true,
+})
 
 //api v1 routes
 app.use("/api/v1", routes);
