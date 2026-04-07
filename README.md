@@ -1,3 +1,4 @@
+# whatsapp-web
 # 💬 WhatsApp Web Clone (MERN + WebRTC)
 
 A full-stack real-time chat application inspired by WhatsApp Web, featuring messaging, group chats, file sharing, and peer-to-peer audio/video calling.
