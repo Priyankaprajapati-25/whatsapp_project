@@ -187,7 +187,7 @@ If you like this project, give it a ⭐ on GitHub!
 
 ---
 
-## 🧑‍💻 Author
+## 👩‍💻 Authors
 
-Priyanka Prajapati,
-Muthyala Srivalli
+- Priyanka Prajapati (https://github.com/Priyankaprajapati-25)
+- Muthyala Srivalli (https://github.com/Srivalli323)
