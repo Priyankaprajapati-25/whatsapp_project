@@ -132,27 +132,33 @@ Register Page:
 
 Login Page: 
 
-<img width="1897" height="880" alt="Register" src="https://github.com/user-attachments/assets/6f01069e-151c-4775-be92-19a077c45ce8" />
+<img width="1920" height="881" alt="Login" src="https://github.com/user-attachments/assets/f4abc11d-d1a6-4105-9128-688de3baa585" />
+
 
 Create new chat:
 
 <img width="1920" height="882" alt="creating user" src="https://github.com/user-attachments/assets/de14f8cc-8a6b-4147-b6c4-0e1ba86252f3" />
 
+
 One-to-one chat:
 
 <img width="1920" height="835" alt="images and files" src="https://github.com/user-attachments/assets/eeb58bf1-05c3-4217-996b-94574750f46a" />
+
 
 Group chat:
 
 <img width="1883" height="843" alt="group chat" src="https://github.com/user-attachments/assets/7bb094d0-ef3d-4c57-92ca-9cd139131314" />
 
+
 Video call:
 
 <img width="1885" height="843" alt="videocall1" src="https://github.com/user-attachments/assets/c67b50f8-c8f1-4f37-a152-bf7d902d81f1" />
 
+
 Audio call:
 
 <img width="1871" height="844" alt="audiocall" src="https://github.com/user-attachments/assets/86fa2c65-6825-4f2f-8a36-eb625aa59ffb" />
+
 
 ---
 
