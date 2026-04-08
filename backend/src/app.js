@@ -47,10 +47,12 @@ app.use(
 );
 
 //cors
-cors({
+const cors = require("cors");
+
+app.use(cors({
   origin: process.env.CLIENT_ENDPOINT,
-  credentials: true,
-})
+  credentials: true
+}));
 
 //api v1 routes
 app.use("/api/v1", routes);
