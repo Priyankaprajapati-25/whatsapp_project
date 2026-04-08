@@ -47,7 +47,6 @@ app.use(
 );
 
 //cors
-const cors = require("cors");
 
 app.use(cors({
   origin: process.env.CLIENT_ENDPOINT,
