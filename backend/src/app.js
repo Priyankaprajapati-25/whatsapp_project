@@ -48,7 +48,7 @@ app.use(
 
 //cors
 cors({
-  origin: ["http://localhost:3000"],
+  origin: process.env.CLIENT_ENDPOINT,
   credentials: true,
 })
 
